@@ -84,4 +84,13 @@ test(un_farandulero_que_tiene_problemas_con_seinfeld_esta_complicado):-
 test(un_farandulero_que_no_tiene_problemas_con_seinfeld_no_esta_complicado, fail):-
   estaComplicado(farandula(newman,kramer)).
 
+test(no_le_importa_nada, set(Autor == [bobSacamano, constanza])):-
+  noLeImportaNada(Autor).
+
+test(no_le_importa_nada, set(Autor == [elaineBenes, artVandalay])):-
+  esMuyOriginal(Autor).
+
+test(tuvo_un_traspie, set(Autor == [bobSacamano, constanza])):-
+  tuvoUnTraspie(Autor).
+
 :- end_tests(noticias).
