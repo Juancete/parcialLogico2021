@@ -9,9 +9,9 @@
 % farandula(persona,conQuienTieneProblema)
 
 % Esto me imagino que se los damos en formato de análisis, no?
-noticia(elaineBenes,articulo("Nuevo título para Lloyd Braun",deportista(lloydBraun,5)),25).
+noticia(artVandalay,articulo("Nuevo título para Lloyd Braun",deportista(lloydBraun,5)),25).
 noticia(elaineBenes,articulo("primicia",farandula(seinfeld,kennyBania)),16).
-noticia(artVandalay,articulo("El dolar bajó",farandula(seinfeld,newman)),150).
+noticia(elaineBenes,articulo("El dolar bajó",farandula(seinfeld,newman)),150).
 noticia(bobSacamano,articulo("No consigue ganar una carrera",deportista(davidPuddy,0)),10).
 noticia(bobSacamano,articulo("Cosmo Kramer encabeza las elecciones!",politico(cosmoKramer,amigosDelPoder)),155).
 
@@ -30,7 +30,7 @@ noticia(bobSacamano,articulo("Cosmo Kramer encabeza las elecciones!",politico(co
 % me anticipo a que a much@s alumn@s les puede hacer ruido esto y hacer preguntas.
 % Igual, dejémoslo.
 noticia(costanza,Articulo,Visitas):- noticia(bobSacamano,Articulo,Visitas).
-noticia(costanza,Titulo,politico(Famoso,amigosDelPoder),Visitas):- noticia(_,articulo(Titulo,farandula(Famoso,_)),VisitasOriginales), Visitas is VisitasOriginales / 2.
+noticia(costanza,articulo(Titulo,politico(Famoso,amigosDelPoder)),Visitas):- noticia(_,articulo(Titulo,farandula(Famoso,_)),VisitasOriginales), Visitas is VisitasOriginales / 2.
 
 % Elaine Benes no roba las noticias de artVandalay. -> Universo Cerrado
 
@@ -52,7 +52,7 @@ estaComplicado(farandula(_,seinfeld)).
 autor(Autor):- distinct(Autor, noticia(Autor,_,_)).
 
 % A un autor no le importa nada si todas sus noticias muy visitadas son amarillistas. Las noticias muy visitadas son las que tienen más de 15 visitas.
-noLeImportaNada(Autor):-distinct(autor(Autor)), forall(noticiaMuyVisitada(Autor,Articulo), esAmarillista(Articulo)).
+noLeImportaNada(Autor):-autor(Autor), forall(noticiaMuyVisitada(Autor,Articulo), esAmarillista(Articulo)).
 % tenías noticia como functor, me parecía raro
 
 noticiaMuyVisitada(Autor,Articulo):-noticia(Autor,Articulo,Visitas),Visitas > 15.
@@ -60,7 +60,7 @@ noticiaMuyVisitada(Autor,Articulo):-noticia(Autor,Articulo,Visitas),Visitas > 15
 % Un autor es muy original si no existe alguna noticia de otro autor que tenga alguno de los nombres de sus publicaciones.  
 % Yo lo trataría de escribirlo menos guiado:
 % Un autor es muy original si no hay otra noticia que tenga el mismo título.
-esMuyOriginal(Autor):- distinct(autor(Autor)), not((noticia(OtroAutor,articulo(Titulo,_),_),noticia(Autor,articulo(Titulo,_),_),Autor \= OtroAutor)).
+esMuyOriginal(Autor):- autor(Autor), not((noticia(OtroAutor,articulo(Titulo,_),_),noticia(Autor,articulo(Titulo,_),_),Autor \= OtroAutor)).
 
 % un autor tuvo un traspié si tiene al menos una noticia poco visitada.
 % Acá apunto al mal uso del findall, cosa que suele suceder. Queda muy corto, por ahí se puede sumar al 3 y dejar solo 4 puntos. 
@@ -109,7 +109,7 @@ test(un_farandulero_que_no_tiene_problemas_con_seinfeld_no_esta_complicado, fail
 test(no_le_importa_nada, set(Autor == [bobSacamano, costanza])):-
   noLeImportaNada(Autor).
 
-test(no_le_importa_nada, set(Autor == [elaineBenes, artVandalay])):-
+test(es_muy_original, set(Autor == [artVandalay])):-
   esMuyOriginal(Autor).
 
 test(tuvo_un_traspie, set(Autor == [bobSacamano, costanza])):-
