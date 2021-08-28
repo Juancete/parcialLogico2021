@@ -63,3 +63,25 @@ articulosPosibles([noticia(_,Articulo,Visitas)|Noticias],Cantidad,[Articulo|Posi
   articulosPosibles(Noticias,ProximaCantidad, Posibles).
 articulosPosibles([_|Noticias],Cantidad,Posibles):-
   articulosPosibles(Noticias,Cantidad,Posibles).
+
+:- begin_tests(noticias).
+
+test(un_articulo_con_titulo_primicia_esAmarillista, nondet) :-
+  esAmarillista(articulo("primicia",farandula(seinfeld,kennyBania))).
+
+test(un_politico_esta_complicado):-
+  estaComplicado(politico(cosmoKramer,partidoLoco)).
+
+test(un_deportista_sin_titulos_esta_complicado):- 
+  estaComplicado(deportista(pepe,0)).
+
+test(un_deportista_con_titulos_no_esta_complicado, fail):-
+  estaComplicado(deportista(pepe,10)).
+
+test(un_farandulero_que_tiene_problemas_con_seinfeld_esta_complicado):-
+  estaComplicado(farandula(newman,seinfeld)).
+
+test(un_farandulero_que_no_tiene_problemas_con_seinfeld_no_esta_complicado, fail):-
+  estaComplicado(farandula(newman,kramer)).
+
+:- end_tests(noticias).
